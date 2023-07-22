@@ -1,0 +1,38 @@
+.header{
+	padding: 15px;
+	margin: 5px;
+	color: white;
+	background-color: #044E96;
+}
+.file-selectors{
+	width: 100;
+}
+
+#image-results{
+	margin-left: 275px;
+}
+img{
+ 	padding-top: 10px;
+ 	padding-right: 10px;
+ 	float: right;
+ }
+.results td{
+	text-align: center;
+
+}
+#selector{
+	margin: 10px;
+	padding: 15px;
+	float: left;
+	color: white;
+	background-color: #044E96;
+	position: fixed;
+
+
+}
+
+
+body{
+	font-family: arial, sans-serif;
+	background-color: #EBEBEB;
+}

@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{{ the_title }}</title>
+    <link rel="stylesheet" href="static/main.css" />
+  </head>
+  <body>
+    <div id="content">
+      <div class="header">
+        <img src="static/logo.png">
+        <h1>Computer Vision Comparison Application</h1>
+      </div>
+      <div>
+          <p>Welcome to the Ryerson Computer Vision Comparison Application. To begin, select your input images, check off which descriptors and detectors you would like, then click "Run"!</p>
+          <form method="post" action="/results" enctype="multipart/form-data">
+            <table class="header" id="selector">
+              <tr>
+                <td><input type="radio" name="operation" value="matching"> Matching</td>
+                <td><input type="radio" name="operation" value="stitching"> Stitching</td>
+              </tr>
+              <tr>
+              </tr>
+              <tr>
+                <td><h3>Detectors</h3></td>
+                <td><h3>Descriptors</h3></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" checked name="detector-surf" value="SURF-Detector">SURF</td>
+                <td><input type="checkbox" checked name="descriptor-surf" value="SURF-Descriptor">SURF</td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" name="detector-sift" value="SIFT-Detector">SIFT</td>
+                  <td><input type="checkbox" name="descriptor-sift" value="SIFT-Descriptor">SIFT</td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" name="detector-fast" value="FAST-Detector">FAST</td>
+                <td><input type="checkbox" name="descriptor-orb" value="ORB-Descriptor">ORB</td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" name="detector-orb" value="ORB-Detector">ORB</td>
+                <td><input type="checkbox" name="descriptor-brief" value="BRIEF-Descriptor">BRIEF</td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" name="detector-harris" value="Harris-Detector">HARRIS</td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" name="detector-sck" value="SCK-Detector">SCK</td>
+              </tr>
+              <tr>
+                <td>Image 1</td>
+              </tr>
+              <tr>
+                <td><input class="file-selectors" type="file" name="image-1"></td>
+              </tr>
+              <tr>
+                <td>Image 2</td>
+              </tr>
+              <tr>
+                <td><input class="file-selectors" type="file" name="image-2"></td>
+              </tr>
+              <tr>
+                <td><input value="Run" type="submit"></td>
+              </tr>
+            </table>
+          </form>
+          <div>
+            <table>
+              <tr>
+                <td><h3>Input Image 1</h3></td>
+                <td><h3>Input Image 2</h3></td>
+              </tr>
+              <tr>
+                <td><img src="static/inputImages/{{ filename1 }}"></td>
+                <td><img src="static/inputImages/{{ filename2 }}"></td>                
+              </tr>
+              {% for detector, values in keypoints.items() %}
+                <tr>
+                  <td>{{ detector}} : {{ values[0] }}</td>
+                  <td>{{ detector}} : {{ values[1] }}</td>
+                </tr>
+              {% endfor %}
+            </table>
+            <table>
+              {% for detector in detectors_list %}
+                <tr>
+                {% for descriptor in descriptors_list %}
+                  <td><h3>Combination of {{ detector }} and {{ descriptor }}</h3></td>
+                {% endfor %}
+                </tr>
+                <tr>
+                {% for descriptor in descriptors_list %}
+                  {% set value = detector + '-' + descriptor %}
+                  <td><img src='static/savedImages/{{ files_used[value] }}'></td>     
+                {% endfor %}
+                </tr>
+                <tr>
+                {% for descriptor in descriptors_list %}
+                  {% set value = detector + '-' + descriptor %}
+                  <td><a href="{{ url_for('download', filename=files_used[value]) }}">Download</a></td>     
+                {% endfor %}
+                </tr>
+              {% endfor %}
+            </table>
+          </div>
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <div>
+            &copy; 2019, Ryerson University, Multimedia Research Lab
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

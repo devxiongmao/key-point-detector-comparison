@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div id="content">
+<div class="header">
+	<img src="static/logo.png">
+	<h1>Computer Vision Comparison Application</h1>
+</div>
+<div>
+    <p>Welcome to the Ryerson Computer Vision Comparison Application. To begin, select your input images, check off which descriptors and detectors you would like, then click "Run"! If using the stitching function, ensure that the right image is selected first (for Image 1) and the left image second.</p>
+    <form method="post" action="/results" enctype="multipart/form-data">
+      <table class="header" id="selector">
+      	<tr>
+      	  <td><input type="radio" name="operation" value="matching"> Matching</td>
+      	  <td><input type="radio" name="operation" value="stitching"> Stitching</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+          <td><h3>Detectors</h3></td>
+          <td><h3>Descriptors</h3></td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" checked name="detector-surf" value="SURF-Detector">SURF</td>
+          <td><input type="checkbox" checked name="descriptor-surf" value="SURF-Descriptor">SURF</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" name="detector-sift" value="SIFT-Detector">SIFT</td>
+		        <td><input type="checkbox" name="descriptor-sift" value="SIFT-Descriptor">SIFT</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" name="detector-fast" value="FAST-Detector">FAST</td>
+          <td><input type="checkbox" name="descriptor-orb" value="ORB-Descriptor">ORB</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" name="detector-orb" value="ORB-Detector">ORB</td>
+          <td><input type="checkbox" name="descriptor-brief" value="BRIEF-Descriptor">BRIEF</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" name="detector-harris" value="Harris-Detector">HARRIS</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" name="detector-sck" value="SCK-Detector">SCK</td>
+        </tr>
+        <tr>
+          <td>Image 1</td>
+        </tr>
+        <tr>
+          <td><input class="file-selectors" type="file" name="image-1"></td>
+        </tr>
+        <tr>
+          <td>Image 2</td>
+        </tr>
+        <tr>
+          <td><input class="file-selectors" type="file" name="image-2"></td>
+        </tr>
+        <tr>
+          <td><input value="Run" type="submit"></td>
+        </tr>
+      </table>
+    </form>
+    <div>
+      <table>
+        <tr>
+          <td><h3>Input Image 1</h3></td>
+          <td><h3>Input Image 2</h3></td>
+        </tr>
+        <tr>
+          <td><h3>Matching Image Result</h3></td>
+      </tr>
+      <tr>
+          <td><h3>Stitching Image Result</h3></td>
+        </tr>
+      </table>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <div>
+      &copy; 2019, Ryerson University, Multimedia Research Lab
+    </div>
+  </div>
+</div>
+
+{% endblock %}

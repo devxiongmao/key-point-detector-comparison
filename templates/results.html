@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{{ the_title }}</title>
+    <link rel="stylesheet" href="static/main.css" />
+    <script src="static/ValidateInput.js" language="Javascript" type="text/javascript"></script>
+  </head>
+  <body onload="ValidateInput();">
+    <div id="content">
+      <div class="header">
+        <img src="static/logo.png">
+        <h1>Computer Vision Comparison Application</h1>
+      </div>
+      <div>
+          <p>Welcome to the Ryerson Computer Vision Comparison Application. To begin, select your input images, check off which descriptors and detectors you would like, then click "Run"! If using the stitching function, ensure that the left image is selected first (for Image 1) and the right image second.</p>
+          <form method="post" action="/results" enctype="multipart/form-data">
+            <table id="selector">
+              <tr>
+                <td><h3>Operation</h3></td>
+              </tr>
+              <tr>
+                {% if operation == 'matching' %}
+                <td><input type="radio" checked id="matching-select" onclick="ValidateInput();" name="operation" value="matching"> Matching</td>
+                {% else %}
+                <td><input type="radio" id="matching-select" onclick="ValidateInput();" name="operation" value="matching"> Matching</td>
+                {% endif %}
+                {% if operation == 'stitching' %}
+                <td><input type="radio" checked onclick="ValidateInput();" id="stitching-select" name="operation" value="stitching"> Stitching</td>
+                {% else %}
+                <td><input type="radio" onclick="ValidateInput();" id="stitching-select" name="operation" value="stitching"> Stitching</td>
+                {% endif %}
+                
+              </tr>
+              <tr>
+                <td><h3>Detectors</h3></td>
+                <td><h3>Descriptors</h3></td>
+              </tr>
+              <tr>
+                {% if 'SURF-Detector' in detectors_list %}
+                  <td><input type="checkbox" checked onclick="ValidateInput();" name="detector-surf" value="SURF-Detector">SURF</td>
+                {% else %}
+                  <td><input type="checkbox" onclick="ValidateInput();" name="detector-surf" value="SURF-Detector">SURF</td>
+                {% endif %}
+                
+                {% if 'SIFT-Descriptor' in descriptors_list %}
+                  <td><input type="checkbox" checked onclick="ValidateInput();" name="descriptor-sift" id="descriptor-sift" value="SIFT-Descriptor">SIFT</td>
+                {% else %}
+                  <td><input type="checkbox" onclick="ValidateInput();" name="descriptor-sift" id="descriptor-sift" value="SIFT-Descriptor">SIFT</td>
+                {% endif %}
+              </tr>
+              <tr>
+                {% if 'SIFT-Detector' in detectors_list %}
+                  <td><input type="checkbox" checked onclick="ValidateInput();" name="detector-sift" value="SIFT-Detector">SIFT</td>
+                {% else %}
+                  <td><input type="checkbox" onclick="ValidateInput();" name="detector-sift" value="SIFT-Detector">SIFT</td>
+                {% endif %}
+              </tr>
+              <tr>
+                {% if 'FAST-Detector' in detectors_list %}
+                  <td><input type="checkbox" checked onclick="ValidateInput();" name="detector-fast" value="FAST-Detector">FAST</td>
+                {% else %}
+                  <td><input type="checkbox" onclick="ValidateInput();" name="detector-fast" value="FAST-Detector">FAST</td>
+                {% endif %}
+              </tr>
+             <tr>
+                {% if 'ORB-Detector' in detectors_list %}
+                  <td><input type="checkbox" checked onclick="ValidateInput();" name="detector-orb" value="ORB-Detector">ORB</td>
+                {% else %}
+                  <td><input type="checkbox" onclick="ValidateInput();" name="detector-orb" value="ORB-Detector">ORB</td>
+                {% endif %}
+              </tr>
+              <tr>
+                {% if 'Harris-Detector' in detectors_list %}
+                  <td><input type="checkbox" checked onclick="ValidateInput();" name="detector-harris" value="Harris-Detector">HARRIS</td>
+                {% else %}
+                  <td><input type="checkbox" onclick="ValidateInput();" name="detector-harris" value="Harris-Detector">HARRIS</td>
+                {% endif %}
+              </tr>
+              <tr>
+                {% if 'SCK-Detector' in detectors_list %}
+                  <td><input type="checkbox" checked onclick="ValidateInput();" name="detector-sck" value="SCK-Detector">SCK</td>
+                {% else %}
+                  <td><input type="checkbox" onclick="ValidateInput();" name="detector-sck" value="SCK-Detector">SCK</td>
+                {% endif %}
+              </tr>
+              <tr>
+                <td><h3>Orientation</h3></td>
+                <td><h3>Assignment</h3></td>
+              </tr>
+              <tr>
+                {% if orientation == 'default' %}
+                  <td><input type="radio" checked id="sift-orientation" onclick="ValidateInput();" name="orientation" value="default"> SIFT</td>
+                   <td><input type="radio" id="downward-orientation" onclick="ValidateInput();" name="orientation" value="downward"> Downward</td>
+                {% else %}
+                  <td><input type="radio" id="sift-orientation" onclick="ValidateInput();" name="orientation" value="default"> SIFT</td>
+                   <td><input type="radio" checked id="downward-orientation" onclick="ValidateInput();" name="orientation" value="downward"> Downward</td>
+                {% endif %}
+              </tr>
+              <tr>
+                <td colspan="2"><h3>Number of Keypoints</h3></td>
+              </tr>
+              <tr>
+                <td colspan="2">Minimum 500 needed</td>
+              </tr>
+              <tr>
+                <td><input type="text" id="num-keypoints" oninput="ValidateInput();" style="width: 100px;" value="{{specific_num_keypoints}}" name="num-keypoints"></td>
+              </tr>
+              <tr>
+                <td><h3>Run!</h3></td>
+              </tr>
+              <tr>
+                <td><input disabled value="Run" id="submit" type="submit"></td>
+              </tr>
+            </table>
+            <div id="image-results">
+              <table>
+                <tr>
+                  <td><h3>Input Image 1</h3></td>
+                  <td><h3>Input Image 2</h3></td>
+                </tr>
+                <tr>
+                  <td><input onchange="ValidateInput();" accept="image/*" class="file-selectors" type="file" id="image-l" name="image-l"></td>
+                  <td><input onchange="ValidateInput();" accept="image/*" class="file-selectors" type="file" id="image-r" name="image-r"></td>
+                </tr>
+                <tr>
+                  <td><img src="static/inputImages/{{ filename2 }}"></td>
+                  <td><img src="static/inputImages/{{ filename1 }}"></td>                
+                </tr>
+                {% for detector, values in keypoints.items() %}
+                  <tr>
+                    <td>{{ detector}} : {{ values[0] }}</td>
+                    <td>{{ detector}} : {{ values[1] }}</td>
+                  </tr>
+                {% endfor %}
+              </table>
+              <table>
+                {% for detector in detectors_list %}
+                  <tr>
+                  {% for descriptor in descriptors_list %}
+                    <td><h3>Combination of {{ detector }} and {{ descriptor }}</h3></td>
+                  {% endfor %}
+                  </tr>
+                  <tr>
+                  {% set value = detector + '-SIFT-Descriptor' %}
+
+                  {% for descriptor in descriptors_list if "ERROR" in files_used[value] %}
+                      <td>Not enough meaningful keypoints to stitch images</td>
+                    {% else %}
+                      <td><img src='static/savedImages/{{ files_used[value] }}'></td>   
+                  {% endfor %}
+                  </tr>
+                  <tr>
+                  {% for descriptor in descriptors_list if "ERROR" not in files_used[value] %}
+                    <td><a href="{{ url_for('download', filename=files_used[value]) }}">Download</a></td>     
+                  {% endfor %}
+                  </tr>
+                {% endfor %}
+              </table>
+            </div>
+          </form>
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <div>
+            &copy; 2019, Ryerson University, Multimedia Research Lab
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
